@@ -46,7 +46,7 @@ class Sonar:
         return True
     
     def get_volume_data(self):
-        volume_info_url = self.web_server_address + "/volumeSettings/classic"
+        volume_info_url = self.web_server_address + "/volumeSettings/streamer"
         volume_data = requests.get(volume_info_url)
         if volume_data.status_code != 200:
             print(f'Sonar server not accessible! Status code: {volume_data.status_code}')
@@ -62,7 +62,7 @@ class Sonar:
         if volume < 0 or volume > 1:
             return {"error": True, "message": f"Invalid volume '{volume}'! Value must be between 0 and 1!"}
         
-        url = f'{self.web_server_address}/volumeSettings/classic/{channel}/Volume/{json.dumps(volume)}'
+        url = f'{self.web_server_address}/volumeSettings/streamer/monitoring/{channel}/Volume/{json.dumps(volume)}'
         volume_data = requests.put(url)
 
         return json.loads(volume_data.text)
@@ -73,7 +73,7 @@ class Sonar:
 
         muted = (muted == True)
         
-        url = f'{self.web_server_address}/volumeSettings/classic/{channel}/Mute/{json.dumps(muted)}'
+        url = f'{self.web_server_address}/volumeSettings/streamer/monitoring/{channel}/Mute/{json.dumps(muted)}'
         mute_data = requests.put(url)
 
         return json.loads(mute_data.text)        
